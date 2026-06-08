@@ -6,7 +6,6 @@ from llm_eval_harness.scorers.speaker_id import (
 )
 from llm_eval_harness.scorers.summary import build_summary_scorers
 
-
 _SUMMARY_SCORER_NAMES: set[str] = set()
 _SPEAKER_ID_SCORER_NAMES: set[str] = set()
 

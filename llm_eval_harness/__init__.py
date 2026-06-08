@@ -3,8 +3,12 @@ from __future__ import annotations
 from typing import Any
 
 from llm_eval_harness.contracts import EvalReport, ScorerResult
-from llm_eval_harness.golden import GoldenSet, SpeakerIdentityGoldenRecord, SummaryGoldenRecord, load_golden_set
-from llm_eval_harness.scorers import get_deterministic_scorers, is_speaker_id_scorer, is_summary_scorer
+from llm_eval_harness.golden import load_golden_set
+from llm_eval_harness.scorers import (
+    get_deterministic_scorers,
+    is_speaker_id_scorer,
+    is_summary_scorer,
+)
 
 
 def run_evals(
@@ -49,7 +53,9 @@ def run_evals(
     if use_judge and judge_model is not None:
         from llm_eval_harness.judge import run_judge
 
-        judge_report = run_judge(episode_metrics, golden_set.summary_records, judge_model=judge_model)
+        judge_report = run_judge(
+            episode_metrics, golden_set.summary_records, judge_model=judge_model
+        )
         if judge_report and not judge_report.passed:
             failures_by_category["judge_failure"] = failures_by_category.get("judge_failure", 0) + 1
 
