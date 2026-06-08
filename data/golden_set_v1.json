@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "summary_episodes": [
+    {
+      "episode_date": "2026-01-01",
+      "title": "Synthetic Talk Show — 2026-01-01",
+      "transcript_path": "data/samples/episode-20260101.txt",
+      "expected_fields_present": ["summary_text"],
+      "expected_spellings": {
+        "John Smith": "John Smith",
+        "Jane Doe": "Jane Doe"
+      },
+      "min_coverage_terms": ["Smith", "Doe", "interview"],
+      "forbidden_terms": ["Smithh", "Jone"],
+      "known_hosts": ["John Smith", "Jane Doe"]
+    },
+    {
+      "episode_date": "2026-01-02",
+      "title": "Synthetic Talk Show — 2026-01-02",
+      "transcript_path": "data/samples/episode-20260102.txt",
+      "expected_fields_present": ["summary_text"],
+      "expected_spellings": {
+        "John Smith": "John Smith",
+        "Jane Doe": "Jane Doe"
+      },
+      "min_coverage_terms": ["Smith", "Doe", "caller"],
+      "forbidden_terms": ["Smithh", "Jone"],
+      "known_hosts": ["John Smith", "Jane Doe"]
+    }
+  ],
+  "speaker_identity_episodes": [
+    {
+      "episode_date": "2026-01-01",
+      "diarized_turns": [
+        {"speaker": "SPEAKER_00", "text": "Welcome to the show", "start": 0.0, "end": 2.5},
+        {"speaker": "SPEAKER_01", "text": "Great to be here", "start": 3.0, "end": 5.0}
+      ],
+      "expected_host_labels": ["SPEAKER_00"],
+      "expected_unresolved_count_max": 0,
+      "expected_known_speakers": {
+        "SPEAKER_00": "John Smith"
+      },
+      "known_hosts": ["John Smith", "Jane Doe"]
+    },
+    {
+      "episode_date": "2026-01-02",
+      "diarized_turns": [
+        {"speaker": "SPEAKER_00", "text": "This is Jane Doe", "start": 0.0, "end": 2.0},
+        {"speaker": "SPEAKER_01", "text": "I'm John Smith", "start": 2.5, "end": 4.0},
+        {"speaker": "SPEAKER_02", "text": "Caller from Chicago, you're on", "start": 5.0, "end": 8.0}
+      ],
+      "expected_host_labels": ["SPEAKER_00", "SPEAKER_01"],
+      "expected_unresolved_count_max": 1,
+      "expected_known_speakers": {
+        "SPEAKER_00": "Jane Doe",
+        "SPEAKER_01": "John Smith"
+      },
+      "known_hosts": ["John Smith", "Jane Doe"]
+    }
+  ]
+}

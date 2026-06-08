@@ -1,0 +1,6 @@
+# Core — no external dependencies required
+# The eval harness runs with only the Python standard library.
+# For LLM-as-judge, provide a callable conforming to JudgeModel protocol.
+
+# Dev
+ruff>=0.3.0
