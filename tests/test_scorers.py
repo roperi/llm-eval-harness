@@ -32,7 +32,8 @@ class SummaryScorerTests(unittest.TestCase):
         )
 
     def test_required_fields_passes(self) -> None:
-        result = required_fields_scorer({"summary_text": "John Smith hosted the show."}, self.golden)
+        output = {"summary_text": "John Smith hosted the show."}
+        result = required_fields_scorer(output, self.golden)
         self.assertTrue(result.passed)
 
     def test_required_fields_fails_on_empty(self) -> None:
@@ -75,7 +76,8 @@ class SummaryScorerTests(unittest.TestCase):
         self.assertEqual(result.failure_category, "unattributed_quote")
 
     def test_coverage_passes(self) -> None:
-        result = coverage_scorer({"summary_text": "Smith and Doe conducted an interview."}, self.golden)
+        output = {"summary_text": "Smith and Doe conducted an interview."}
+        result = coverage_scorer(output, self.golden)
         self.assertTrue(result.passed)
 
     def test_coverage_fails_on_missing_term(self) -> None:

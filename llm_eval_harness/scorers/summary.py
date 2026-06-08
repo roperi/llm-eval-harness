@@ -30,7 +30,8 @@ def required_fields_scorer(output: dict, golden: SummaryGoldenRecord) -> ScorerR
 HALLUCINATED_NAME_PATTERNS: list[tuple[str, str]] = [
     (r"\bJohn\s+Smithh\b", "John Smith"),
     (r"\bJon\s+Smith\b", "John Smith"),
-    (r"\bJane\s+Doe\b", "Jane Doe"),
+    (r"\bJhon\s+Smith\b", "John Smith"),
+    (r"\bJanne\s+Doe\b", "Jane Doe"),
     (r"\bJain\s+Doe\b", "Jane Doe"),
 ]
 

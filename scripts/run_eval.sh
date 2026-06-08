@@ -29,7 +29,7 @@ if [[ ! -f "$LATEST_METRICS" ]]; then
     },
     {
       "date": "2026-01-02",
-      "summary_text": "Jane Doe and John Smith took calls from listeners. Smith discussed current events. Doe moderated the discussion.",
+      "summary_text": "Jane Doe and John Smith took a caller from Chicago. Smith discussed current events. Doe moderated the discussion.",
       "speaker_identity_metadata": {
         "mappings": [
           {"channel": "SPEAKER_00", "resolved_label": "Jane Doe", "status": "resolved"},

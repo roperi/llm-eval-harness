@@ -3,8 +3,8 @@ from __future__ import annotations
 from typing import Any
 
 from llm_eval_harness.contracts import EvalReport, ScorerResult
-from llm_eval_harness.golden import load_golden_set
-from llm_eval_harness.scorers import get_deterministic_scorers
+from llm_eval_harness.golden import GoldenSet, SpeakerIdentityGoldenRecord, SummaryGoldenRecord, load_golden_set
+from llm_eval_harness.scorers import get_deterministic_scorers, is_speaker_id_scorer, is_summary_scorer
 
 
 def run_evals(
@@ -13,8 +13,10 @@ def run_evals(
     use_judge: bool = False,
     judge_model: Any = None,
 ) -> EvalReport:
-    golden_records = load_golden_set(golden_set_path)
-    golden_by_date = {r.episode_date: r for r in golden_records}
+    golden_set = load_golden_set(golden_set_path)
+
+    summary_by_date = {r.episode_date: r for r in golden_set.summary_records}
+    si_by_date = {r.episode_date: r for r in golden_set.speaker_identity_records}
 
     scorers = get_deterministic_scorers()
     scorer_results: list[ScorerResult] = []
@@ -22,12 +24,17 @@ def run_evals(
 
     for ep in episode_metrics:
         date = ep.get("date") or ep.get("episode_date") or ""
-        golden = golden_by_date.get(date)
-        if golden is None:
-            continue
+        summary_golden = summary_by_date.get(date)
+        si_golden = si_by_date.get(date)
 
         for scorer in scorers:
-            result = scorer(ep, golden)
+            if is_summary_scorer(scorer) and summary_golden is not None:
+                result = scorer(ep, summary_golden)
+            elif is_speaker_id_scorer(scorer) and si_golden is not None:
+                result = scorer(ep, si_golden)
+            else:
+                continue
+
             scorer_results.append(result)
             if not result.passed and result.failure_category:
                 failures_by_category[result.failure_category] = (
@@ -42,7 +49,7 @@ def run_evals(
     if use_judge and judge_model is not None:
         from llm_eval_harness.judge import run_judge
 
-        judge_report = run_judge(episode_metrics, golden_records, judge_model=judge_model)
+        judge_report = run_judge(episode_metrics, golden_set.summary_records, judge_model=judge_model)
         if judge_report and not judge_report.passed:
             failures_by_category["judge_failure"] = failures_by_category.get("judge_failure", 0) + 1
 
